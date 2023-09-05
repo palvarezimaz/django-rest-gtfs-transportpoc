@@ -1,0 +1,98 @@
+{% load rest_framework %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport Timetable Proof of Concept</title>
+    <style>
+        body {
+            background-color: goldenrod;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .name-id-list {
+            margin-top: 50px;
+        }
+
+        .station-name-id {
+            font-size: small;
+            margin-bottom: -10px;
+        }
+
+        #stationk {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Transport Timetable Proof of Concept</h1>
+
+    <h2>Treat me like an api</h2>
+
+    <h3>To display arrival times of trains on by station id</h3>
+    <p>Call the api with: <code>GET /arrivals/{stop_id}</code></p>
+    <p> For example:
+        <a href="http://localhost:8000/arrivals/2155269/">
+            http://localhost:8000/arrivals/2155269/
+        </a>
+    </p>
+
+    <h3>To list all trips that run on a given day</h3>
+    <p>Call the api with: <code>GET /day-trips/{monday|tuesday|...}</code></p>
+    <p>For example:
+        <a href="http://localhost:8000/day-trips/monday/">
+            http://localhost:8000/day-trips/monday/
+        </a>
+    </p>
+    <br>
+    <h2>Treat me like an app</h>
+        <h3>Display arrival times of trains by stop name:</h3>
+        <form action="arrivals-form/" method="GET">
+            {{arrival_form}}
+            <button type="submit" , name="send">Search station arrival times</button>
+        </form>
+
+        <h3>List all trips that run on a given day:</h3>
+        <form method="GET" action="day-trips-form/">
+            {{alltrips_form}}
+            <button type="submit" , name="send">
+                List all trips
+            </button>
+        </form>
+
+
+        <h2 class='name-id-list'>
+            Station Name - Id key
+            <button id='listbtn' onclick="hideStationKeys()">
+                Show list
+            </button>
+            <h2>
+
+
+                <div id="stationk">
+                    {% for k, v in station_names_dict.items %}
+                    <p class="station-name-id">{{ v }} - {{ k }}</p>
+                    {% endfor %}
+                    <div>
+                        <script>
+                            function hideStationKeys() {
+                                let list = document.getElementById('stationk')
+                                let button = document.getElementById('listbtn')
+                                if (list.style.display === 'block') {
+                                    list.style.display = 'none'
+                                    button.innerText = 'Show list'
+                                } else {
+                                    list.style.display = 'block'
+                                    button.innerText = 'Hide list'
+                                }
+                            }
+                        </script>
+</body>
+
+</html>
